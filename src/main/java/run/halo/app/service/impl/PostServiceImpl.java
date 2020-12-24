@@ -776,9 +776,11 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
         // Create or update post
         post = super.createOrUpdateBy(post);
 
-        postTagService.removeByPostId(post.getId());
+        //delete post id in postTag table 这里可以是面试的点
+//        postTagService.removeByPostId(post.getId());
 
-        postCategoryService.removeByPostId(post.getId());
+        //delete category id in postCategory table
+//        postCategoryService.removeByPostId(post.getId());
 
         // List all tags
         List<Tag> tags = tagService.listAllByIds(tagIds);
@@ -786,10 +788,11 @@ public class PostServiceImpl extends BasePostServiceImpl<Post> implements PostSe
         // List all categories
         List<Category> categories = categoryService.listAllByIds(categoryIds);
 
-        // Create post tags
+        // Create post tags   (post tags has inserted into the table)
         List<PostTag> postTags = postTagService.mergeOrCreateByIfAbsent(post.getId(),
                 ServiceUtils.fetchProperty(tags, Tag::getId));
 
+        //return value for print log
         log.debug("Created post tags: [{}]", postTags);
 
         // Create post categories
