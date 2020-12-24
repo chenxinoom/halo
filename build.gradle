@@ -4,7 +4,6 @@ plugins {
     id "checkstyle"
     id "java"
 }
-
 group = "run.halo.app"
 version = "1.4.2"
 description = "Halo, An excellent open source blog publishing application."
@@ -42,6 +41,7 @@ bootJar {
     }
 }
 
+//这个是个方法
 ext {
     hutoolVersion = "5.3.8"
     upyunSdkVersion = "4.2.0"
@@ -136,3 +136,6 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+
+
