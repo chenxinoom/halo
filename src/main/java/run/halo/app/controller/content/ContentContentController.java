@@ -109,6 +109,7 @@ public class ContentContentController {
         return null;
     }
 
+    //{}以下面的PathVariable注解相匹配 \\d+匹配数字 没有这个话不管是不是数字都能匹配到
     @GetMapping("{prefix}/page/{page:\\d+}")
     public String content(@PathVariable("prefix") String prefix,
             @PathVariable(value = "page") Integer page,

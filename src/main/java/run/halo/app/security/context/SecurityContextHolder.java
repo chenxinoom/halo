@@ -11,6 +11,7 @@ import org.springframework.lang.Nullable;
  */
 public class SecurityContextHolder {
 
+    //gc不会清除
     private final static ThreadLocal<SecurityContext> CONTEXT_HOLDER = new ThreadLocal<>();
 
     private SecurityContextHolder() {
@@ -23,7 +24,7 @@ public class SecurityContextHolder {
      */
     @NonNull
     public static SecurityContext getContext() {
-        // Get from thread local
+        // Get from thread local 使用到ThreadLocal的地方
         SecurityContext context = CONTEXT_HOLDER.get();
         if (context == null) {
             // If no context is available now then create an empty context

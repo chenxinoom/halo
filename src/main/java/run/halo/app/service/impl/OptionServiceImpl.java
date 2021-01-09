@@ -48,11 +48,15 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Service
+//这个类有点东西
+//系统参数
 public class OptionServiceImpl extends AbstractCrudService<Option, Integer> implements OptionService {
 
     private final OptionRepository optionRepository;
     private final ApplicationContext applicationContext;
+    //这是缓存 这个好好看看
     private final AbstractStringCacheStore cacheStore;
+    //所有的参数
     private final Map<String, PropertyEnum> propertyEnumMap;
     private final ApplicationEventPublisher eventPublisher;
     private final HaloProperties haloProperties;
@@ -170,9 +174,11 @@ public class OptionServiceImpl extends AbstractCrudService<Option, Integer> impl
 
     @Override
     @SuppressWarnings("unchecked")
+    //从缓存中取数据
     public Map<String, Object> listOptions() {
         // Get options from cache
         return cacheStore.getAny(OPTIONS_KEY, Map.class).orElseGet(() -> {
+            //在数据库中取数据
             List<Option> options = listAll();
 
             Set<String> keys = ServiceUtils.fetchProperty(options, Option::getKey);
@@ -194,10 +200,12 @@ public class OptionServiceImpl extends AbstractCrudService<Option, Integer> impl
             // Add default property
             propertyEnumMap.keySet()
                     .stream()
+                    //排除包含的
                     .filter(key -> !keys.contains(key))
                     .forEach(key -> {
                         PropertyEnum propertyEnum = propertyEnumMap.get(key);
 
+                        //排除空的
                         if (StringUtils.isBlank(propertyEnum.defaultValue())) {
                             return;
                         }
@@ -206,6 +214,7 @@ public class OptionServiceImpl extends AbstractCrudService<Option, Integer> impl
                     });
 
             // Cache the result
+            // 得到的参数结果存储到cache中
             cacheStore.putAny(OPTIONS_KEY, result);
 
             return result;
@@ -329,6 +338,7 @@ public class OptionServiceImpl extends AbstractCrudService<Option, Integer> impl
     }
 
     @Override
+    //Optional是个只存一个数的容器 判断是否为空和有值
     public <T> Optional<T> getByProperty(PropertyEnum property, Class<T> propertyType) {
         return getByProperty(property).map(propertyValue -> PropertyEnum.convertTo(propertyValue.toString(), propertyType));
     }

@@ -25,6 +25,7 @@ import static run.halo.app.utils.HaloUtils.ensureBoth;
  * @date 2020-03-24
  */
 @Slf4j
+//重写了@Controller修饰的RequestMapping的handle 熟悉下mvc的流程
 public class HaloRequestMappingHandlerMapping extends RequestMappingHandlerMapping
         implements ApplicationListener<StaticStorageChangedEvent> {
 
@@ -41,10 +42,13 @@ public class HaloRequestMappingHandlerMapping extends RequestMappingHandlerMappi
     }
 
     @Override
+    //配置黑名单?
     protected HandlerMethod lookupHandlerMethod(String lookupPath, HttpServletRequest request) throws Exception {
         log.debug("Looking path: [{}]", lookupPath);
         for (String blackPattern : blackPatterns) {
             if (this.pathMatcher.match(blackPattern, lookupPath)) {
+
+                ///css/chen 请求回到这
                 log.debug("Skipped path [{}] with pattern: [{}]", lookupPath, blackPattern);
                 return null;
             }
@@ -72,6 +76,7 @@ public class HaloRequestMappingHandlerMapping extends RequestMappingHandlerMappi
     }
 
     @Override
+    //处理application的事件
     public void onApplicationEvent(StaticStorageChangedEvent event) {
         Path staticPath = event.getStaticPath();
         try (Stream<Path> rootPathStream = Files.list(staticPath)) {

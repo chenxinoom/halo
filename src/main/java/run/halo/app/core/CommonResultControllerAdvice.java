@@ -20,7 +20,16 @@ import run.halo.app.model.support.BaseResponse;
  *
  * @author johnniang
  */
-@ControllerAdvice("run.halo.app.controller")
+@ControllerAdvice("run.halo.app.controller") //注解是在controller层的 监控
+/**
+ * 三个注解
+ * @ExceptionHandler(Exception.class) 全局异常处理
+ * @ControllerAdvice 全局异常绑定
+ * @RestController 全局数据预处理 book 与 author 都有name字段
+ * https://juejin.cn/post/6844903828022640648
+ */
+
+//只是对ResponseBody进行增强 ResponseBodyAdvice 一直没看见
 public class CommonResultControllerAdvice implements ResponseBodyAdvice<Object> {
 
     @Override
@@ -29,7 +38,7 @@ public class CommonResultControllerAdvice implements ResponseBodyAdvice<Object> 
     }
 
     @Override
-    @NonNull
+    @NonNull//在返回body之前封装了一下 只要返回值都是在此封装一下 对返回值 错误的应该单独处理 在异常处？
     public final Object beforeBodyWrite(@Nullable Object body,
             @NotNull MethodParameter returnType,
             @NotNull MediaType contentType,

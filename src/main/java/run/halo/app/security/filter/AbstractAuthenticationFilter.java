@@ -39,21 +39,30 @@ import static run.halo.app.model.support.HaloConst.ONE_TIME_TOKEN_QUERY_NAME;
  * @date 19-4-16
  */
 @Slf4j
+//主要是filter中做文章 没有集成springSecurity框架
 public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter {
 
+    //antPath匹配 url匹配 ？一个字符 *0个多个字符 ** 0个多个目录
     protected final AntPathMatcher antPathMatcher;
+    //这个很重要 配置的思想
     protected final HaloProperties haloProperties;
+    //选项service
     protected final OptionService optionService;
+    //缓存
     protected final AbstractStringCacheStore cacheStore;
+    //url相关的 用于解码
     private final UrlPathHelper urlPathHelper = new UrlPathHelper();
+    //token相关操作
     private final OneTimeTokenService oneTimeTokenService;
 
+    //失败操作
     private volatile AuthenticationFailureHandler failureHandler;
     /**
-     * Exclude url patterns.
+     * Exclude url patterns. 白名单
      */
     private Set<String> excludeUrlPatterns = new HashSet<>(16);
 
+    //url模式
     private Set<String> urlPatterns = new LinkedHashSet<>();
 
     AbstractAuthenticationFilter(HaloProperties haloProperties,
@@ -77,15 +86,18 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
     @Nullable
     protected abstract String getTokenFromRequest(@NonNull HttpServletRequest request);
 
+    //进行认证 由子类完成
     protected abstract void doAuthenticate(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException;
 
+//应该不过滤 不过滤的请求
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         Assert.notNull(request, "Http servlet request must not be null");
 
-        // check white list
+        // check white list 白名单
         boolean result = excludeUrlPatterns.stream().anyMatch(p -> antPathMatcher.match(p, urlPathHelper.getRequestUri(request)));
 
+        //所有都不是真返回true
         return result || urlPatterns.stream().noneMatch(p -> antPathMatcher.match(p, urlPathHelper.getRequestUri(request)));
 
     }
@@ -168,11 +180,13 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
         this.failureHandler = failureHandler;
     }
 
+    //实现OncePerRequestFilter 的内部调用的方法 这个方法在doFilter中被调用
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         // Check whether the blog is installed or not
         Boolean isInstalled = optionService.getByPropertyOrDefault(PrimaryProperties.IS_INSTALLED, Boolean.class, false);
 
+        //没有安装
         if (!isInstalled && !Mode.TEST.equals(haloProperties.getMode())) {
             // If not installed
             getFailureHandler().onFailure(request, response, new NotInstallException("当前博客还没有初始化"));
@@ -196,6 +210,7 @@ public abstract class AbstractAuthenticationFilter extends OncePerRequestFilter 
     }
 
     /**
+     * 检查这个sufficient的token是否被设置
      * Check if the sufficient one-time token is set.
      *
      * @param request http servlet request

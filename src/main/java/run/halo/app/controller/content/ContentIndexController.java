@@ -21,7 +21,7 @@ import java.util.Objects;
  * @date 2019-03-17
  */
 @Slf4j
-@Controller
+@Controller //不是json格式的数据 ResponseBodyAdvice的子类修饰ControllerAdvice注解所捕获
 @RequestMapping
 public class ContentIndexController {
 
@@ -47,6 +47,7 @@ public class ContentIndexController {
      * @param model model
      * @return template path: themes/{theme}/index.ftl
      */
+    //使用模版freeMarker渲染
     @GetMapping
     public String index(Integer p, String token, Model model) {
 
@@ -57,6 +58,7 @@ public class ContentIndexController {
             return postModel.content(post, token, model);
         }
 
+        //返回模型方法与freemarker对应
         return this.index(model, 1);
     }
 
@@ -72,4 +74,6 @@ public class ContentIndexController {
             @PathVariable(value = "page") Integer page) {
         return postModel.list(page, model);
     }
+
+
 }

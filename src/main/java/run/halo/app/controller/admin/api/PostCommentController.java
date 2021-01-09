@@ -32,7 +32,7 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
  * @date 2019-03-29
  */
 @RestController
-@RequestMapping("/comments")
+@RequestMapping("/api/admin/posts/comments")
 public class PostCommentController {
 
     private final PostCommentService postCommentService;

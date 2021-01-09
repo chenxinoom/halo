@@ -25,7 +25,8 @@ import java.util.Map;
 import java.util.Optional;
 
 /**
- * Option service interface.
+ * Option service interface
+ * //通用的的service
  *
  * @author johnniang
  * @author ryanwang

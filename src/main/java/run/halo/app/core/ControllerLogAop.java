@@ -30,6 +30,7 @@ import java.util.Objects;
 @Aspect
 @Component
 @Slf4j
+//AOP 每个controller
 public class ControllerLogAop {
 
     @Pointcut("@within(org.springframework.stereotype.Controller)")
@@ -37,6 +38,7 @@ public class ControllerLogAop {
     }
 
     @Around("controller()")
+    //每个都会拦截
     public Object controller(ProceedingJoinPoint joinPoint) throws Throwable {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         final Method method = signature.getMethod();

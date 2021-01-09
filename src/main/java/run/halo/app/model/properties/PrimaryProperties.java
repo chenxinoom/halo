@@ -5,9 +5,11 @@ import static run.halo.app.model.support.HaloConst.DEFAULT_THEME_ID;
 /**
  * Primary properties.
  *
+ * 这个是主要参数 在数据库中存储
  * @author johnniang
  * @date 4/2/19
  */
+//枚举可以继承对象
 public enum PrimaryProperties implements PropertyEnum {
 
     /**

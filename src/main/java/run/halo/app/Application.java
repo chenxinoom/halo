@@ -2,6 +2,7 @@ package run.halo.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Import;
 
 /**
  * Halo main class.
@@ -9,7 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author ryanwang
  * @date 2017-11-14
  */
-@SpringBootApplication
+@SpringBootApplication //可以把配置类加载到spring容器中
+//@Import  把类加载到spring容器中
 public class Application {
 
     public static void main(String[] args) {

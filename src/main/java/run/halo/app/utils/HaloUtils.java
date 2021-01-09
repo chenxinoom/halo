@@ -65,6 +65,7 @@ public class HaloUtils {
         Assert.hasText(string, "String must not be blank");
         Assert.hasText(suffix, "Suffix must not be blank");
 
+        //?
         return StringUtils.removeEnd(string, suffix) + suffix;
     }
 

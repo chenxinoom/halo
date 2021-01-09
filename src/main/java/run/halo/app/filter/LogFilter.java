@@ -21,6 +21,7 @@ import java.io.IOException;
 @Slf4j
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
+//Spring的继承过滤器大多数是继承这个 推荐spring环境下继承OncePerRequestFilter
 public class LogFilter extends OncePerRequestFilter {
 
     @Override

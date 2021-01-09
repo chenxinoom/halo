@@ -20,6 +20,8 @@ import java.io.IOException;
  * @author johnniang
  * @date 12/12/18
  */
+
+//认证失败处理者
 @Slf4j
 public class DefaultAuthenticationFailureHandler implements AuthenticationFailureHandler {
 
@@ -30,6 +32,7 @@ public class DefaultAuthenticationFailureHandler implements AuthenticationFailur
     public DefaultAuthenticationFailureHandler() {
     }
 
+    //失败操作
     @Override
     public void onFailure(HttpServletRequest request, HttpServletResponse response, AbstractHaloException exception) throws IOException {
         log.warn("Handle unsuccessful authentication, ip: [{}]", ServletUtil.getClientIP(request));

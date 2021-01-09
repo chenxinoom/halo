@@ -35,6 +35,7 @@ public class AdminController {
 
     private final AdminService adminService;
 
+    //可选的service
     private final OptionService optionService;
 
     public AdminController(AdminService adminService, OptionService optionService) {
@@ -43,8 +44,10 @@ public class AdminController {
     }
 
     @GetMapping(value = "/is_installed")
+    //生成接口文档使用的接口
     @ApiOperation("Checks Installation status")
     public boolean isInstall() {
+        //这哥逻辑得搞懂jjj
         return optionService.getByPropertyOrDefault(PrimaryProperties.IS_INSTALLED, Boolean.class, false);
     }
 

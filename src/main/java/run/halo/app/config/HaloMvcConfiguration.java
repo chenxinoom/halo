@@ -57,6 +57,7 @@ import static run.halo.app.utils.HaloUtils.*;
 @Configuration
 @EnableConfigurationProperties(MultipartProperties.class)
 @ImportAutoConfiguration(exclude = MultipartAutoConfiguration.class)
+//这个类是mvc的配置文件
 public class HaloMvcConfiguration implements WebMvcConfigurer {
 
     private static final String FILE_PROTOCOL = "file:///";
@@ -81,6 +82,7 @@ public class HaloMvcConfiguration implements WebMvcConfigurer {
     /**
      * Configuring freemarker template file path.
      *
+     * 配置路径 公共模板
      * @return new FreeMarkerConfigurer
      */
     @Bean
@@ -173,15 +175,19 @@ public class HaloMvcConfiguration implements WebMvcConfigurer {
      * @param registry registry
      */
     @Override
+    //配置静态资源
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         String workDir = FILE_PROTOCOL + ensureSuffix(haloProperties.getWorkDir(), FILE_SEPARATOR);
 
         // register /** resource handler.
+        //addResourceHandler是指你想在url请求的路径
+        //addResourceLocations是图片存放的真实路
         registry.addResourceHandler("/**")
                 .addResourceLocations("classpath:/admin/")
                 .addResourceLocations(workDir + "static/");
 
         // register /themes/** resource handler.
+        //主题
         registry.addResourceHandler("/themes/**")
                 .addResourceLocations(workDir + "templates/themes/");
 

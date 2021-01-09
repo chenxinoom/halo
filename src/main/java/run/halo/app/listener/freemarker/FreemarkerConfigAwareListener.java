@@ -23,6 +23,7 @@ import run.halo.app.service.UserService;
 /**
  * Freemarker config aware listener.
  *
+ * 全局变量设置
  * @author johnniang
  * @author ryanwang
  * @date 2019-04-20

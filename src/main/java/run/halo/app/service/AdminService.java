@@ -19,7 +19,7 @@ import run.halo.app.security.token.AuthToken;
 public interface AdminService {
 
     /**
-     * Expired seconds.
+     * Expired seconds. 过期事件 单位是秒 表示一天
      */
     int ACCESS_TOKEN_EXPIRED_SECONDS = 24 * 3600;
 

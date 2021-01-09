@@ -15,7 +15,7 @@ import run.halo.app.security.context.SecurityContextHolder;
  * @date 10:22 PM 25/5/2020
  */
 @Aspect
-@Component
+@Component //敏感隐藏切面
 public class SensitiveConcealAspect {
 
 

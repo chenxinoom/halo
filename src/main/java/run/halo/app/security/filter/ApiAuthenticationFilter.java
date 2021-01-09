@@ -34,6 +34,7 @@ import static run.halo.app.model.support.HaloConst.API_ACCESS_KEY_QUERY_NAME;
 @Slf4j
 @Component
 @Order(0)
+//这个类不理解
 public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
 
     private final OptionService optionService;
@@ -68,7 +69,7 @@ public class ApiAuthenticationFilter extends AbstractAuthenticationFilter {
             return;
         }
 
-        // Get api_enable from option
+        // Get api_enable from option 不太清楚这个和下面的有啥作用
         Boolean apiEnabled = optionService.getByPropertyOrDefault(ApiProperties.API_ENABLED, Boolean.class, false);
 
         if (!apiEnabled) {

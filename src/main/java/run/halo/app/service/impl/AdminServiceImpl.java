@@ -92,7 +92,7 @@ public class AdminServiceImpl implements AdminService {
 
     private final HaloProperties haloProperties;
 
-    private final ApplicationEventPublisher eventPublisher;
+    private final ApplicationEventPublisher eventPublisher; //相当于事件发布者
 
     public AdminServiceImpl(PostService postService,
             SheetService sheetService,
@@ -162,10 +162,10 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @NonNull
     public AuthToken authCodeCheck(@NonNull final LoginParam loginParam) {
-        // get user
+        // get user 调用认证方法
         final User user = this.authenticate(loginParam);
 
-        // check authCode
+        // check authCode 授权码
         if (MFAType.useMFA(user.getMfaType())) {
             if (StrUtil.isBlank(loginParam.getAuthcode())) {
                 throw new BadRequestException("请输入两步验证码");
@@ -178,7 +178,7 @@ public class AdminServiceImpl implements AdminService {
             throw new BadRequestException("您已登录，请不要重复登录");
         }
 
-        // Log it then login successful
+        // Log it then login successful 打印日志 推送log事件 事件驱动模式观察者模式 (观察者模式有事件 事件发布者（这个就是事件发布者） 事件订阅者)
         eventPublisher.publishEvent(new LogEvent(this, user.getUsername(), LogType.LOGGED_IN, user.getNickname()));
 
         // Generate new token
@@ -437,7 +437,7 @@ public class AdminServiceImpl implements AdminService {
 
     /**
      * Builds authentication token.
-     *
+     * 创建Token 并存储到缓存中
      * @param user user info must not be null
      * @return authentication token
      */
@@ -456,7 +456,7 @@ public class AdminServiceImpl implements AdminService {
         cacheStore.putAny(SecurityUtils.buildAccessTokenKey(user), token.getAccessToken(), ACCESS_TOKEN_EXPIRED_SECONDS, TimeUnit.SECONDS);
         cacheStore.putAny(SecurityUtils.buildRefreshTokenKey(user), token.getRefreshToken(), REFRESH_TOKEN_EXPIRED_DAYS, TimeUnit.DAYS);
 
-        // Cache those tokens with user id
+        // Cache those tokens with user id 存储userId
         cacheStore.putAny(SecurityUtils.buildTokenAccessKey(token.getAccessToken()), user.getId(), ACCESS_TOKEN_EXPIRED_SECONDS, TimeUnit.SECONDS);
         cacheStore.putAny(SecurityUtils.buildTokenRefreshKey(token.getRefreshToken()), user.getId(), REFRESH_TOKEN_EXPIRED_DAYS, TimeUnit.DAYS);
 

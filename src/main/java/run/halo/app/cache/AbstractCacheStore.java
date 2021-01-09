@@ -17,6 +17,7 @@ import java.util.concurrent.TimeUnit;
  * @author johnniang
  * @date 3/28/19
  */
+//这些CacheWrapper的类是为了get put方法服务的 CacheStore有点像netty的UnSafe接口 向外暴漏操作方法 但是最终完成是这个抽象类的抽象方法
 @Slf4j
 public abstract class AbstractCacheStore<K, V> implements CacheStore<K, V> {
 
@@ -53,7 +54,7 @@ public abstract class AbstractCacheStore<K, V> implements CacheStore<K, V> {
         Assert.notNull(key, "Cache key must not be blank");
 
         return getInternal(key).map(cacheWrapper -> {
-            // Check expiration
+            // Check expiration 检查是否过期
             if (cacheWrapper.getExpireAt() != null && cacheWrapper.getExpireAt().before(run.halo.app.utils.DateUtils.now())) {
                 // Expired then delete it
                 log.warn("Cache key: [{}] has been expired", key);
@@ -62,6 +63,7 @@ public abstract class AbstractCacheStore<K, V> implements CacheStore<K, V> {
                 delete(key);
 
                 // Return null
+                //这个有问题吗
                 return null;
             }
 

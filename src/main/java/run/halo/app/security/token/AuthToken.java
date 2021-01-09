@@ -27,6 +27,6 @@ public class AuthToken {
     /**
      * Refresh token.
      */
-    @JsonProperty("refresh_token")
+    @JsonProperty("refresh_token")//这个注解是把对象序列化成refresh_taken字段
     private String refreshToken;
 }

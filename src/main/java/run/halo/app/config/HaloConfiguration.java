@@ -32,9 +32,9 @@ import java.security.NoSuchAlgorithmException;
  */
 @Slf4j
 @EnableAsync
-@EnableScheduling
+@EnableScheduling  //调度任务
 @Configuration(proxyBeanMethods = false)
-@EnableConfigurationProperties(HaloProperties.class)
+@EnableConfigurationProperties(HaloProperties.class) //将HalloProperties注入到容器中
 @EnableJpaRepositories(basePackages = "run.halo.app.repository", repositoryBaseClass = BaseRepositoryImpl.class)
 public class HaloConfiguration {
 

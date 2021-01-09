@@ -13,6 +13,7 @@ import java.util.Map;
 
 /**
  * Property enum.
+ * 属性枚举
  *
  * @author johnniang
  * @date 3/26/19
@@ -21,6 +22,8 @@ public interface PropertyEnum extends ValueEnum<String> {
 
 
     /**
+     * 把字符串转换成相应的类型
+     * 相当于解码编码
      * Converts to value with corresponding type
      *
      * @param value string value must not be blank
@@ -65,12 +68,13 @@ public interface PropertyEnum extends ValueEnum<String> {
             return (T) Float.valueOf(value);
         }
 
-        // Should never happen
+        // Should never happen 不应该发生
         throw new UnsupportedOperationException("Unsupported convention for blog property type:" + type.getName() + " provided");
     }
 
     /**
      * Converts to value with corresponding type
+     * 典型的父类方法 通用方法 在接口中写出
      *
      * @param value        value
      * @param propertyEnum property enum must not be null
@@ -142,6 +146,7 @@ public interface PropertyEnum extends ValueEnum<String> {
                 || type.isAssignableFrom(ValueEnum.class);
     }
 
+    //获取到所有的参数
     static Map<String, PropertyEnum> getValuePropertyEnumMap() {
         // Get all properties
         List<Class<? extends PropertyEnum>> propertyEnumClasses = new LinkedList<>();
@@ -178,6 +183,7 @@ public interface PropertyEnum extends ValueEnum<String> {
      *
      * @return property type
      */
+    //子类去实现方法
     Class<?> getType();
 
     /**

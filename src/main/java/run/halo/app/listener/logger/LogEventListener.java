@@ -1,5 +1,6 @@
 package run.halo.app.listener.logger;
 
+import org.jetbrains.annotations.TestOnly;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ public class LogEventListener {
     }
 
     @EventListener
-    @Async
+    @Async //事件订阅者
     public void onApplicationEvent(LogEvent event) {
         // Convert to log
         Log logToCreate = event.getLogParam().convertTo();
@@ -31,4 +32,5 @@ public class LogEventListener {
         // Create log
         logService.create(logToCreate);
     }
+
 }

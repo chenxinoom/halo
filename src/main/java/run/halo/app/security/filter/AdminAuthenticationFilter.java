@@ -76,7 +76,7 @@ public class AdminAuthenticationFilter extends AbstractAuthenticationFilter {
 
     }
 
-    @Override
+    @Override //看是否登录
     protected void doAuthenticate(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         if (!haloProperties.isAuthEnabled()) {
@@ -109,7 +109,7 @@ public class AdminAuthenticationFilter extends AbstractAuthenticationFilter {
         // Build user detail
         UserDetail userDetail = new UserDetail(user);
 
-        // Set security
+        // Set security 已经登录
         SecurityContextHolder.setContext(new SecurityContextImpl(new AuthenticationImpl(userDetail)));
 
         // Do filter

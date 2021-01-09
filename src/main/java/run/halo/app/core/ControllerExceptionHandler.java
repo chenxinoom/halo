@@ -30,6 +30,7 @@ import java.util.Map;
  */
 @RestControllerAdvice(value = {"run.halo.app.controller.admin.api", "run.halo.app.controller.content.api"})
 @Slf4j
+//异常处理
 public class ControllerExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)

@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
  * @author johnniang
  * *
  */
+//可以实现缓存机制
 public interface CacheStore<K, V> {
 
     /**
